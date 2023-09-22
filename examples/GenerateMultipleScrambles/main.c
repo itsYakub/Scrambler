@@ -12,7 +12,7 @@ int main(void) {
     scrambleInitRandomNumberGenerator(time(NULL));
     char* scramble = scrambleGenerateAsStringByMode(MODE_3X3);
 
-    for(int i = 0; i < 5; i++) {
+    for(int i = 0; i < 8; i++) {
         printf("%i. %s\n", i + 1, scramble);
 
         scramble = scrambleGenerateAsStringByMode(MODE_3X3);

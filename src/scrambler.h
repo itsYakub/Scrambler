@@ -42,8 +42,10 @@ void scrambleGenenrateByMode(scrambleMove* moves, scrambleMode mode);
 void scrambleGenenrateByConfig(scrambleMove* moves, scrambleConfig config);
 
 // Generating the `scramble string` by specifying the `generation's mode`
+// `WARNING`: generated strings are allocated on the heap memory; after using them remember to call `free()` or `delete`
 char* scrambleGenerateAsStringByMode(scrambleMode mode);
 // Generating the `scramble string` by giving the generator a `custom configuration`
+// `WARNING`: generated strings are allocated on the heap memory; after using them remember to call `free()` or `delete`
 char* scrambleGenerateAsStringByConfig(scrambleConfig config);
 
 // Generating the new `scramble config object`
@@ -69,7 +71,7 @@ void scrambleGenenrateByMode(scrambleMove* moves, scrambleMode mode){
     for (int i = 0; i < (int)scrambleConfigurations[mode].scrambleLength; i++) {
         do {
             moves[i].move = scrambleConfigurations[mode].scrableMoveset[rand() % strlen(scrambleConfigurations[mode].scrableMoveset)];
-        }while (moves[i].move == moves[i - 1].move || moves[i].move == moves[i - 2].move);
+        } while (moves[i].move == moves[i - 1].move || moves[i].move == moves[i - 2].move);
 
         moves[i].modifier = scrambleConfigurations[mode].scrambleModifiers[rand() % strlen(scrambleConfigurations[mode].scrambleModifiers)];
     }
@@ -79,16 +81,31 @@ char* scrambleGenerateAsStringByMode(scrambleMode mode){
     scrambleMove scramble[scrambleConfigurations[mode].scrambleLength];
     scrambleGenenrateByMode(scramble, mode);
 
-    int scrambleTextTotalSize = sizeof(scramble) + scrambleConfigurations[mode].scrambleLength;
-    char* scrambleText = malloc(scrambleTextTotalSize + 1);
+    int scrambleTextTotalSize = scrambleConfigurations[mode].scrambleLength * 3;
+    char* scrambleText = malloc(scrambleTextTotalSize * sizeof(char));
 
+    int lastIndexOfTheString = 0;
+
+    // Firstly: insert the moves into the string
     for(int i = 0; i < scrambleTextTotalSize; i += 3){
         scrambleText[i] = scramble[i / 3].move;
-        scrambleText[i + 1] = scramble[i / 3].modifier;
-        scrambleText[i + 2] = ' ';
+        lastIndexOfTheString++;
     }
 
-    scrambleText[scrambleTextTotalSize] = '\0';
+    // Secondly: insert the modifiers into the string
+    for(int i = 1; i < scrambleTextTotalSize; i += 3){
+        scrambleText[i] = scramble[i / 3].modifier;
+        lastIndexOfTheString++;
+    }
+
+    // Thirdly: insert the whitespaces into the string
+    for(int i = 2; i < scrambleTextTotalSize - 1; i += 3){
+        scrambleText[i] = ' ';
+        lastIndexOfTheString++;
+    }
+
+    // Lastly: add the EOL character, signifying the end of the string
+    scrambleText[lastIndexOfTheString] = '\0';
 
     return scrambleText;
 }
@@ -97,7 +114,7 @@ void scrambleGenenrateByConfig(scrambleMove* moves, scrambleConfig config){
     for (int i = 0; i < (int)config.scrambleLength; i++) {
         do {
             moves[i].move = config.scrableMoveset[rand() % strlen(config.scrableMoveset)];
-        }while (moves[i].move == moves[i - 1].move || moves[i].move == moves[i - 2].move);
+        } while (moves[i].move == moves[i - 1].move || moves[i].move == moves[i - 2].move);
 
         moves[i].modifier = config.scrambleModifiers[rand() % strlen(config.scrambleModifiers)];
     }
@@ -107,16 +124,31 @@ char* scrambleGenerateAsStringByConfig(scrambleConfig config){
     scrambleMove scramble[config.scrambleLength];
     scrambleGenenrateByConfig(scramble, config);
 
-    int scrambleTextTotalSize = sizeof(scramble) + config.scrambleLength;
-    char* scrambleText = malloc(scrambleTextTotalSize + 1);
+    int scrambleTextTotalSize = config.scrambleLength * 3;
+    char* scrambleText = malloc(scrambleTextTotalSize * sizeof(char));
 
+    int lastIndexOfTheString = 0;
+
+    // Firstly: insert the moves into the string
     for(int i = 0; i < scrambleTextTotalSize; i += 3){
         scrambleText[i] = scramble[i / 3].move;
-        scrambleText[i + 1] = scramble[i / 3].modifier;
-        scrambleText[i + 2] = ' ';
+        lastIndexOfTheString++;
     }
 
-    scrambleText[scrambleTextTotalSize] = '\0';
+    // Secondly: insert the modifiers into the string
+    for(int i = 1; i < scrambleTextTotalSize; i += 3){
+        scrambleText[i] = scramble[i / 3].modifier;
+        lastIndexOfTheString++;
+    }
+
+    // Thirdly: insert the whitespaces into the string
+    for(int i = 2; i < scrambleTextTotalSize - 1; i += 3){
+        scrambleText[i] = ' ';
+        lastIndexOfTheString++;
+    }
+
+    // Lastly: add the EOL character, signifying the end of the string
+    scrambleText[lastIndexOfTheString] = '\0';
 
     return scrambleText;
 }
