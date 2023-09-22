@@ -29,7 +29,7 @@ typedef struct {
 */
 typedef struct{
     unsigned int scrambleLength;
-    char* scrableMoveset;
+    char* scrambleMoveset;
     char* scrambleModifiers;
 } scrambleConfig;
 
@@ -54,7 +54,7 @@ scrambleConfig scrambleGenerateConfigObject(unsigned int len, char* moveset, cha
 // The constant list of all default `configurations`
 const scrambleConfig scrambleConfigurations[2] = { 
     { 9, "URF", " '2" },
-    { 20, "UDRLFB", " '2" } 
+    { 20, "UDRLFB", " '2" }
 };
 
 #ifdef SCRAMBLER_IMPLEMENTATION
@@ -70,7 +70,7 @@ void scrambleInitRandomNumberGenerator(int seed){
 void scrambleGenenrateByMode(scrambleMove* moves, scrambleMode mode){
     for (int i = 0; i < (int)scrambleConfigurations[mode].scrambleLength; i++) {
         do {
-            moves[i].move = scrambleConfigurations[mode].scrableMoveset[rand() % strlen(scrambleConfigurations[mode].scrableMoveset)];
+            moves[i].move = scrambleConfigurations[mode].scrambleMoveset[rand() % strlen(scrambleConfigurations[mode].scrambleMoveset)];
         } while (moves[i].move == moves[i - 1].move || moves[i].move == moves[i - 2].move);
 
         moves[i].modifier = scrambleConfigurations[mode].scrambleModifiers[rand() % strlen(scrambleConfigurations[mode].scrambleModifiers)];
@@ -113,7 +113,7 @@ char* scrambleGenerateAsStringByMode(scrambleMode mode){
 void scrambleGenenrateByConfig(scrambleMove* moves, scrambleConfig config){
     for (int i = 0; i < (int)config.scrambleLength; i++) {
         do {
-            moves[i].move = config.scrableMoveset[rand() % strlen(config.scrableMoveset)];
+            moves[i].move = config.scrambleMoveset[rand() % strlen(config.scrambleMoveset)];
         } while (moves[i].move == moves[i - 1].move || moves[i].move == moves[i - 2].move);
 
         moves[i].modifier = config.scrambleModifiers[rand() % strlen(config.scrambleModifiers)];
