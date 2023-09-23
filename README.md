@@ -9,7 +9,7 @@
 #include "scrambler.h"
 
 int main(void) {
-    char* scramble = scrambleGenerateAsStringByMode(MODE_3X3);
+    char* scramble = scrambleGenerateString(scrambleGetConfiguration(MODE_3X3));
 
     printf("%s\n", scramble);
 
