@@ -1,5 +1,5 @@
 # Scrambler
-<B>Single-Header Rubik's cube scrambling tool made in C!</B>
+<B>Single-Header Rubik's cube scrambling library made in C!</B>
 
 # Example
 ```c
